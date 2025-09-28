@@ -66,7 +66,7 @@ public class App extends Application {
 
     private record SimulationResult(List<Process> finalProcesses, List<GanttBlock> ganttChart, double awt, double atat) {}
 
-    // --- LOGIKA ALGORITMA PENJADWALAN (Tidak ada perubahan di sini) ---
+    // --- LOGIKA ALGORITMA PENJADWALAN ---
     private SimulationResult runStandardRoundRobin(List<Process> processes, int quantum) {
         List<Process> processList = processes.stream()
                 .map(p -> new Process(p.name, p.arrivalTime, p.burstTime, p.color))
@@ -277,9 +277,7 @@ public class App extends Application {
                 outputTable.setItems(FXCollections.observableArrayList(result.finalProcesses()));
                 statsLabel.setText(String.format("Average Waiting Time (AWT): %.2f  |  Average Turnaround Time (ATAT): %.2f", result.awt(), result.atat()));
 
-                // #######################################################################
-                // ## PERUBAHAN UTAMA DI SINI: Membuat format output lebih mudah dibaca ##
-                // #######################################################################
+                
                 StringBuilder ganttText = new StringBuilder();
                 ganttText.append("Waktu Mulai -> Selesai :: Proses\n");
                 ganttText.append("----------------------------------\n");
@@ -290,10 +288,7 @@ public class App extends Application {
                         block.start(), block.end(), block.processName()));
                 }
                 ganttArea.setText(ganttText.toString());
-                // #######################################################################
-                // ## AKHIR DARI PERUBAHAN ##
-                // #######################################################################
-
+                
             } catch (NumberFormatException ex) {
                 new Alert(Alert.AlertType.ERROR, "Time Quantum harus berupa angka positif.").showAndWait();
             }
